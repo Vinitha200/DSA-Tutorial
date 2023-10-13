@@ -376,3 +376,5 @@ function Count_Subarray_optimal(arr,k){
 }
 
 console.log(Count_Subarray_optimal([3,1,2,4],6))
+
+//Check for repo 
