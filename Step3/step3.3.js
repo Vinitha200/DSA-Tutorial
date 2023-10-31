@@ -240,5 +240,124 @@ function fourSum_optimal(arr,target){
 
 console.log(fourSum_optimal([1,0,-1,0,-2,2],0))
 
-//5.Length of Longest subarray with sum ==0 
+//5. Count subarray with 0 sum with XOR of k.
 
+//6.Merge Overlapping subintervals
+//brute
+function Overlapping_brute(arr){
+    let n = arr.length
+    let ans = []
+
+    arr.sort((a,b)=>a[0]-b[0])  
+ 
+    for(let i=0;i<n;i++){
+        let start = arr[i][0]
+        let end = arr[i][1]
+        if(ans.length && end <= ans[ans.length-1][1]){
+            continue
+        }
+        for(let j=i+1;j<n;j++){
+            if(arr[j][0] <= end){
+                end = Math.max(end,arr[j][1])
+            }
+            else{
+                break
+            }
+        }
+        ans.push([start,end])
+    }
+
+  return ans
+}
+
+console.log(Overlapping_brute([[1,3],[2,6],[8,10],[15,18]]))
+
+//optimal
+function Overlapping_optimal(arr){
+    let n = arr.length
+    arr.sort((a,b)=>a[0]-b[0])
+
+    let ans = [arr[0]]
+
+    for(let i=0;i<n;i++){
+        let last = ans[ans.length-1]
+        let curr = arr[i]
+        if(curr[0] <= last[1]){
+            last[1] = Math.max(last[1],curr[1])
+        }
+        else{
+            ans.push(curr)
+        }
+    }
+return ans
+}
+
+console.log(Overlapping_optimal([[1,3],[2,6],[8,10],[15,18]]))
+
+//7.Merge 2 Sort array without space
+function sort_optimal(arr1,arr2){
+    let n = arr1.length
+    let m = arr2.length
+    let left = n-1
+    let right = 0
+
+    while(left >=0 &&  right < m){
+        if(arr1[left] > arr2[right]){
+            [arr1[left],arr2[right]] = [arr2[right],arr1[left]]
+            left-- ,right++
+        }
+        else{
+            break
+        }
+    }
+   arr1.sort((a,b)=> a-b)
+   arr2.sort((a,b)=> a-b)
+   return [[...arr1], [...arr2]]
+}
+
+console.log(sort_optimal([1,3,5,7],[0,2,6,8,9]))
+
+function repeat_better(arr) {
+    let n = arr.length;
+    let repeating = -1, missing = -1;
+    const map = new Map();
+
+    for (let i = 0; i < n; i++) {
+        if (!map.has(arr[i])) {
+            map.set(arr[i], 1);
+        } else {
+            repeating = arr[i];
+        }
+    }
+
+    for (let i = 1; i <= n; i++) {
+        if (!map.has(i)) {
+            missing = i;
+        }
+    }
+
+    return { repeating: repeating, missing: missing };
+}
+
+
+console.log(repeat_better([4,3,6,2,1,1]))
+
+function repeat_optimal(arr) {
+    let n = arr.length;
+    let expectedSum = (n * (n + 1)) / 2;
+    let actualSum = arr.reduce((sum, num) => sum + num, 0);
+
+    let expectedSquareSum = (n * (n + 1) * (2 * n + 1)) / 6;
+    let actualSquareSum = arr.reduce((sum, num) => sum + num * num, 0);
+
+    let diffSum = expectedSum - actualSum;
+    let diffSquareSum = expectedSquareSum - actualSquareSum;
+
+    let missing = (diffSum + diffSquareSum / diffSum) / 2;
+    let repeating = missing + diffSum;
+
+    return { repeating: repeating, missing: missing };
+}
+
+
+console.log(repeat_optimal([4,3,6,2,1,1]))
