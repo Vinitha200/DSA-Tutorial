@@ -343,21 +343,104 @@ function repeat_better(arr) {
 console.log(repeat_better([4,3,6,2,1,1]))
 
 function repeat_optimal(arr) {
-    let n = arr.length;
-    let expectedSum = (n * (n + 1)) / 2;
-    let actualSum = arr.reduce((sum, num) => sum + num, 0);
+    let n = arr.length
 
-    let expectedSquareSum = (n * (n + 1) * (2 * n + 1)) / 6;
-    let actualSquareSum = arr.reduce((sum, num) => sum + num * num, 0);
+    //sum of n natural number
+    let sumNaturalNumber = ((n * (n + 1))) / 2
 
-    let diffSum = expectedSum - actualSum;
-    let diffSquareSum = expectedSquareSum - actualSquareSum;
+    //sum of square of n natural number
+    let sumSquareNaturalNumber = ((n * (n + 1) * (2*n + 1)) )/6
 
-    let missing = (diffSum + diffSquareSum / diffSum) / 2;
-    let repeating = missing + diffSum;
+    let s=0,s2=0
+    for(let i=0;i<n;i++){
+        s+=arr[i]
+        s2+=arr[i]*arr[i]
+    }
 
-    return { repeating: repeating, missing: missing };
+    let val1 = sumNaturalNumber - s
+    let val2 = sumSquareNaturalNumber - s2
+
+    val2 = val2/val1
+
+    const x = (val1+val2)/2 //missing
+    const y = x-val1 //repeating
+   
+    return [x,y]
 }
 
 
 console.log(repeat_optimal([4,3,6,2,1,1]))
+
+//9.count Inversions in an array
+
+function Inversions_brute(arr){
+    let n = arr.length
+    let count = 0
+
+    for(let i=0;i<n-1;i++){
+        for(j=i+1;j<n;j++){
+
+            if(arr[i]>arr[j]){
+                count++
+            }
+        }
+    }
+
+    return count
+}
+
+console.log(Inversions_brute([5,3,2,4,1]))
+
+//10.Reverse Pairs
+function reversePairs_brute(arr){
+    let n = arr.length
+
+    let count = 0
+
+    for(let i=0;i<n;i++){
+        for(let j=i+1;j<n;j++){
+            if(arr[i]>2*arr[j]){
+                count++
+            }
+        }
+    }
+    return count
+}
+
+console.log(reversePairs_brute([1,3,2,3,1]))
+
+//11.Maximum Product Subarray
+function maxProduct_brute(arr){
+    let n = arr.length
+    let max = Number.MIN_VALUE
+
+    for(let i=0;i<n;i++){
+        let product = 1
+
+        for(let j=i ;j<n ;j++){
+            product*=arr[j]
+            max = Math.max(max,product)
+        }
+    }
+    return max
+}
+
+console.log(maxProduct_brute([2,3,-2,4]))
+
+function maxProduct_optimal(arr){
+    let n = arr.length
+    let pref=1 ,suff=1
+    let max = Number.MIN_VALUE
+
+    for(let i=0;i<n;i++){
+        if(pref===0) pref=1
+        else if(suff===0) suff=1
+
+        pref *=arr[i]
+        suff *=arr[i]
+        max = Math.max(max,Math.max(pref,suff))
+    }
+    return max
+}
+
+console.log(maxProduct_optimal([2,3,-2,4]))
