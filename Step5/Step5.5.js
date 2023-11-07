@@ -85,3 +85,56 @@ function commonPrefix(str){
 }
 
 console.log(commonPrefix(["flower", "flow", "flight"]))
+
+//5.Isomorphic String
+
+function Isomorphic(str1,str2){
+    if(str1.length !== str2.length) return false
+
+    let map = new Map()
+    let set = new Set()
+
+    for(let i=0;i<str1.length;i++){
+        let char1 = str1[i]
+        let char2 = str2[i]
+
+        if(map.has(char1)){
+            if(map.get(char1)!==char2) return false
+        }
+        else {
+            if(set.has(char2)) return false
+
+            map.set(char1,char2)
+            set.add(char2)
+        }
+    }
+    return true
+}
+
+console.log(Isomorphic("egg","add"))
+
+//6.check whether one string is a rotation of other
+
+function rotate(a,b){
+    if(a.length !== b.length) return false
+    if(a.length===0 && b.length ===0) return true
+    a=a+a
+    return a.includes(b)
+}
+
+console.log(rotate("abcde","cdeab"))
+
+//7.Check for Angram
+function Angram(a,b){
+    let sort_a = a.split('').sort().join('')
+    let sort_b = b.split('').sort().join('')
+
+    for(let i=0;i<sort_a.length;i++){
+        if(sort_a[i]!==sort_b[i]){
+             return false
+        }
+    }
+    return true
+}
+
+console.log(Angram("CAT","ACT"))
