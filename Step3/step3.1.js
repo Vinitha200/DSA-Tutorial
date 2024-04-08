@@ -384,7 +384,30 @@ for (let i = 0; i < n; i++) {
 return len;
 }
 
-
-
 console.log(Longest_brute([2,3,5],5))
 
+function Longest_optimal(arr,k){
+    let n = arr.length;
+    let max = 0
+    let sum = arr[0];
+    let left = 0
+    let right = 0
+
+    while(right < n){
+        while(left<=right && sum>=k){
+            sum -=arr[left]
+            left++
+        }
+
+        if(sum===k){
+            max=Math.max(max,right-left+1)
+        }
+        right++
+
+        if(right < n) sum+=arr[right]
+    }
+
+    return max
+}
+
+console.log(Longest_optimal([2,3,5],5))

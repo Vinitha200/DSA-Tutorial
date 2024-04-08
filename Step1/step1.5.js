@@ -1,4 +1,4 @@
-//Recursion
+//Recursion   
 
 //1.print 0-4
 var count=0
@@ -72,6 +72,7 @@ function Factorial(n){
 
 console.log(Factorial(4))
 
+//8.reverse
 function rev (arr){
 var left = arr[0]
 var right = arr[arr.length -1]
@@ -91,7 +92,27 @@ while(left>right){
 rev([1,2,3])
 
 //9.Reverse using recursion
+function reverse_recursion(arr){
+    let left = 0
+    let right = arr.length-1
 
+    function rev (left,right,arr){
+
+        if(left>=right) return
+
+
+        let temp = arr[left]
+        arr[left] = arr[right]
+        arr[right] = temp
+
+        rev(left+1,right-1,arr)
+    }
+
+    rev(left,right,arr)
+    return arr
+}
+
+console.log(reverse_recursion([1,2,3]))
 //10.palimdrome
 
 //11.Fibonnice number
